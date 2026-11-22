@@ -92,19 +92,23 @@ private fun BackchannelApp() {
 
     Surface(modifier = Modifier.fillMaxSize(), color = Night) {
         Column(modifier = Modifier.fillMaxSize()) {
-            if (selectedChat != null) {
-                ChatPreviewScreen(
-                    title = selectedChat!!,
-                    onBack = { selectedChat = null }
-                )
-            } else {
-                when (page) {
-                    Page.HOME -> HomeScreen(localId, onOpenChat = { selectedChat = it })
-                    Page.CONNECTIONS -> ConnectionsScreen()
-                    Page.SECURITY -> SecurityScreen()
-                    Page.SETTINGS -> SettingsScreen()
-                    Page.PROFILE -> ProfileScreen(localId)
+            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                if (selectedChat != null) {
+                    ChatPreviewScreen(
+                        title = selectedChat!!,
+                        onBack = { selectedChat = null }
+                    )
+                } else {
+                    when (page) {
+                        Page.HOME -> HomeScreen(localId, onOpenChat = { selectedChat = it })
+                        Page.CONNECTIONS -> ConnectionsScreen()
+                        Page.SECURITY -> SecurityScreen()
+                        Page.SETTINGS -> SettingsScreen()
+                        Page.PROFILE -> ProfileScreen(localId)
+                    }
                 }
+            }
+            if (selectedChat == null) {
                 BottomBar(page = page, onSelect = { page = it })
             }
         }
@@ -148,7 +152,7 @@ private fun HomeScreen(localId: String, onOpenChat: (String) -> Unit) {
         Conversation("M", "Maya", "Sent you a file", "Yesterday", Color(0xFF9B8ACB)),
         Conversation("J", "Jordan", "Got it. Talk soon.", "Mon", Color(0xFF719CB4))
     )
-    Column(Modifier.weight(1f)) {
+    Column(Modifier.fillMaxSize()) {
         BrandHeader("P2P CONNECTED")
         Column(Modifier.padding(horizontal = 22.dp)) {
             Text("Your space.", color = MainText, fontSize = 29.sp, fontWeight = FontWeight.SemiBold)
